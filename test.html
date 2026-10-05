@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>offbatata - Laboratório Liquid Glass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Animação Intensa do Fundo */
+        .bg-fluid-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .fluid-blob {
+            position: absolute;
+            filter: blur(90px);
+            opacity: 0.8;
+            animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            mix-blend-mode: screen;
+        }
+
+        .color-1 {
+            top: -10%; left: -10%; width: 50vw; height: 50vw;
+            background: radial-gradient(circle, #ff0055 0%, #3a00ff 100%);
+            animation-duration: 25s;
+        }
+
+        .color-2 {
+            bottom: -20%; right: -10%; width: 60vw; height: 60vw;
+            background: radial-gradient(circle, #00fff2 0%, #002aff 100%);
+            animation-duration: 22s;
+            animation-delay: -5s;
+        }
+        
+        .color-3 {
+            top: 40%; left: 30%; width: 40vw; height: 40vw;
+            background: radial-gradient(circle, #b700ff 0%, #ff00d4 100%);
+            animation: float-alt 18s infinite alternate ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(15vw, 20vh) scale(1.3) rotate(180deg); }
+            100% { transform: translate(-10vw, -15vh) scale(0.9) rotate(360deg); }
+        }
+
+        @keyframes float-alt {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-20vw, 10vh) scale(1.5); }
+        }
+
+        .glass-base {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-light {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .glass-heavy {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.02));
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(255,255,255,0.05);
+        }
+
+        /* 1. Blob Morphing */
+        @keyframes morphing {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+        .liquid-morph {
+            animation: morphing 8s ease-in-out infinite;
+            transition: all 0.5s ease;
+        }
+        .liquid-morph:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* 2. Botões Líquidos */
+        .btn-liquid {
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+        .btn-liquid::before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: -10%;
+            width: 120%;
+            height: 0%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50% 50% 0 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+        .btn-liquid:hover::before {
+            height: 150%;
+            border-radius: 0;
+        }
+
+        /* 3. Inputs Liquid Glass */
+        .glass-input {
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .glass-input:focus {
+            outline: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 2px 15px rgba(0,0,0,0.4), 0 5px 15px rgba(255,255,255,0.1);
+        }
+
+        .menu-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        .menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .menu-content {
+            transform: scale(0.8) translateY(30px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+        .menu-overlay.active .menu-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-fluid-container">
+        <div class="fluid-blob color-1"></div>
+        <div class="fluid-blob color-2"></div>
+        <div class="fluid-blob color-3"></div>
+    </div>
+
+    <header class="w-full z-40 fixed top-0 glass-light border-b-0 border-white/10 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="text-2xl font-bold tracking-tight text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">
+                offbatata
+            </div>
+            
+            <button id="menuBtn" class="flex flex-col justify-center items-center gap-1.5 w-12 h-12 rounded-xl glass-base hover:bg-white/10 transition-all cursor-pointer z-50 hover:scale-105 active:scale-95">
+                <span class="w-6 h-0.5 bg-white rounded-full transition-transform"></span>
+                <span class="w-6 h-0.5 bg-white rounded-full transition-opacity"></span>
+                <span class="w-6 h-0.5 bg-white rounded-full transition-transform"></span>
+            </button>
+        </div>
+    </header>
+
+    <div id="menuModal" class="menu-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="menu-content glass-heavy w-full max-w-md rounded-[2.5rem] p-10 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50 pointer-events-none rounded-[2.5rem]"></div>
+            
+            <div class="flex justify-between items-center mb-10 relative z-10">
+                <h2 class="text-3xl font-bold text-white/90">Menu</h2>
+                <button id="closeBtn" class="w-10 h-10 flex items-center justify-center rounded-full glass-base hover:bg-white/20 transition-colors">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="flex flex-col gap-3 relative z-10">
+                <a href="#" class="px-6 py-4 rounded-2xl glass-base hover:bg-white/10 transition-all text-xl text-white font-medium flex items-center gap-4 group">
+                    <span class="w-2 h-2 rounded-full bg-white/50 group-hover:bg-white transition-colors group-hover:scale-150"></span> Início
+                </a>
+                <a href="#" class="px-6 py-4 rounded-2xl glass-base hover:bg-white/10 transition-all text-xl text-white font-medium flex items-center gap-4 group">
+                    <span class="w-2 h-2 rounded-full bg-white/50 group-hover:bg-white transition-colors group-hover:scale-150"></span> Galeria Liquid
+                </a>
+                <a href="#" class="px-6 py-4 rounded-2xl glass-base hover:bg-white/10 transition-all text-xl text-white font-medium flex items-center gap-4 group">
+                    <span class="w-2 h-2 rounded-full bg-white/50 group-hover:bg-white transition-colors group-hover:scale-150"></span> Experimentos
+                </a>
+                <a href="#" class="px-6 py-4 rounded-2xl glass-base hover:bg-white/10 transition-all text-xl text-white font-medium flex items-center gap-4 group">
+                    <span class="w-2 h-2 rounded-full bg-white/50 group-hover:bg-white transition-colors group-hover:scale-150"></span> Contato
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <main class="flex-grow container mx-auto px-6 pt-32 pb-20 relative z-10">
+        
+        <div class="text-center mb-16">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40 drop-shadow-sm">
+                Laboratório Liquid
+            </h1>
+            <p class="text-lg md:text-xl text-white/70 max-w-2xl mx-auto font-light">
+                Explorando a intersecção entre o design translúcido e animações fluidas.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            
+            <div class="flex flex-col gap-4">
+                <h3 class="text-xl font-semibold pl-2 border-l-4 border-white/50 text-white/90">01. Morphing Blob</h3>
+                <div class="glass-base rounded-3xl p-8 flex items-center justify-center min-h-[350px] relative overflow-hidden group">
+                    <!-- Elemento decorativo de fundo -->
+                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-20"></div>
+                    
+                    <div class="liquid-morph w-48 h-48 bg-gradient-to-tr from-white/20 to-white/5 border border-white/30 backdrop-blur-md shadow-2xl flex items-center justify-center relative z-10">
+                        <span class="text-white/80 font-medium">Fluido</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <h3 class="text-xl font-semibold pl-2 border-l-4 border-white/50 text-white/90">02. Interações Líquidas</h3>
+                <div class="glass-base rounded-3xl p-8 flex flex-col items-center justify-center gap-6 min-h-[350px]">
+                    <button class="btn-liquid glass-base w-full max-w-xs py-4 rounded-2xl text-lg font-medium tracking-wide shadow-lg border border-white/20">
+                        Passe o Mouse
+                    </button>
+                    <button class="btn-liquid glass-base w-full max-w-xs py-4 rounded-full text-lg font-medium tracking-wide shadow-lg border border-white/20">
+                        Efeito Pílula
+                    </button>
+                    <button class="btn-liquid glass-light w-16 h-16 rounded-2xl text-2xl shadow-lg border border-white/20 flex items-center justify-center hover:rotate-12 transition-transform">
+                        💧
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <h3 class="text-xl font-semibold pl-2 border-l-4 border-white/50 text-white/90">03. Camadas (Depth)</h3>
+                <div class="glass-heavy rounded-3xl p-8 min-h-[350px] relative flex items-center justify-center">
+                    <div class="absolute top-4 left-4 text-xs font-mono text-white/40 tracking-widest uppercase">Camada 1 (Pesada)</div>
+                    
+                    <div class="glass-base w-3/4 h-3/4 rounded-2xl p-6 relative flex items-center justify-center transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 text-xs font-mono text-white/40 tracking-widest uppercase">Camada 2 (Base)</div>
+                        
+                        <div class="glass-light w-1/2 h-1/2 rounded-xl flex items-center justify-center transform -rotate-6 hover:rotate-0 transition-transform duration-500 shadow-inner">
+                            <div class="text-xs font-mono text-white/60 text-center">Camada 3<br/>(Fina)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <h3 class="text-xl font-semibold pl-2 border-l-4 border-white/50 text-white/90">04. Formulário Translúcido</h3>
+                <div class="glass-base rounded-3xl p-8 min-h-[350px] flex flex-col justify-center">
+                    <form class="flex flex-col gap-6" onsubmit="event.preventDefault()">
+                        <div class="relative">
+                            <input type="text" id="nome" class="glass-input w-full px-4 py-3 rounded-lg text-white placeholder-white/50" placeholder="Seu Nome">
+                        </div>
+                        <div class="relative">
+                            <input type="email" id="email" class="glass-input w-full px-4 py-3 rounded-lg text-white placeholder-white/50" placeholder="seu@email.com">
+                        </div>
+                        <div class="relative">
+                            <textarea id="mensagem" rows="3" class="glass-input w-full px-4 py-3 rounded-lg text-white placeholder-white/50 resize-none" placeholder="Sua mensagem fluida..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-liquid glass-light w-full py-3 rounded-xl font-semibold text-white/90 mt-2 hover:text-white border-white/30 hover:border-white/60 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="w-full z-10 py-8 glass-light border-t border-white/10 mt-auto">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="text-xl font-bold text-white/70 hover:text-white transition-colors cursor-default drop-shadow-md">
+                offbatata
+            </div>
+            <div class="text-sm text-white/40">
+                &copy; 2026 Efeitos de Vidro Líquido. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const menuModal = document.getElementById('menuModal');
+        const spans = menuBtn.querySelectorAll('span');
+
+        function toggleMenu() {
+            menuModal.classList.toggle('active');
+            
+            // Animação simples no botão hambúrguer
+            if (menuModal.classList.contains('active')) {
+                spans[0].style.transform = 'translateY(8px) rotate(45deg)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'translateY(-8px) rotate(-45deg)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+
+        // Fechar ao clicar no overlay escuro
+        menuModal.addEventListener('click', (e) => {
+            if (e.target === menuModal) {
+                toggleMenu();
+            }
+        });
+    </script>
+</body>
+</html>
