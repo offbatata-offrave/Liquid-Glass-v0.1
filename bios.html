@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OFFBATATA — Cybersecurity & Liquid Glass Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #050811;
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent: #a855f7;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shine: rgba(255, 255, 255, 0.12);
+            --glass-blur: blur(20px);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Liquid Background Glows */
+        .ambient-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.35;
+            animation: floatGlow 15s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            top: -10%;
+            left: -10%;
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+        }
+
+        .glow-2 {
+            bottom: -10%;
+            right: -10%;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            animation-delay: -5s;
+        }
+
+        .glow-3 {
+            top: 40%;
+            left: 30%;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #00ff87, #60efff);
+            opacity: 0.15;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, 40px) scale(1.15); }
+            100% { transform: translate(-40px, 80px) scale(0.9); }
+        }
+
+        /* Liquid Glass Container Foundation */
+        .liquid-glass {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-shine);
+            border-left: 1px solid var(--glass-shine);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .liquid-glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 150%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent
+            );
+            transform: skewX(-20deg);
+            transition: 0.7s;
+        }
+
+        .liquid-glass:hover::before {
+            left: 150%;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.1), rgba(79, 172, 254, 0.1));
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: var(--primary) !important;
+            font-weight: 600 !important;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+        }
+
+        .nav-cta:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #050811 !important;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+        }
+
+        /* Main Container Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 140px 20px 80px;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .hero-content {
+            padding: 50px;
+            border-radius: 32px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge span {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(0, 242, 254, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 35px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #050811;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.3);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Hero Visual Card */
+        .hero-card {
+            padding: 40px;
+            border-radius: 32px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .security-orb {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(168, 85, 247, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 30px;
+            box-shadow: 0 0 50px rgba(0, 242, 254, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .security-orb i {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .security-orb::after {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            border: 2px dashed rgba(0, 242, 254, 0.4);
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .hero-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header h2 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Expertise Grid */
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 100px;
+        }
+
+        .card {
+            padding: 40px;
+            border-radius: 28px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 242, 254, 0.3);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6),
+                        0 0 30px rgba(0, 242, 254, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Certificates Section */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 100px;
+        }
+
+        .cert-card {
+            padding: 30px;
+            border-radius: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: var(--transition);
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
+                        0 0 25px rgba(168, 85, 247, 0.15);
+        }
+
+        .cert-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .cert-info h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .cert-info p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        /* Tech Stack / Languages Section */
+        .tech-section {
+            padding: 60px;
+            border-radius: 32px;
+            margin-bottom: 100px;
+        }
+
+        .tech-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .tech-item {
+            padding: 25px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: var(--transition);
+        }
+
+        .tech-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(0, 242, 254, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .tech-item i {
+            font-size: 2.2rem;
+            color: var(--primary);
+        }
+
+        .tech-item h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .tech-item span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 60px;
+            border-radius: 32px;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-section h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .contact-section p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            padding: 16px 32px;
+            border-radius: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: #ffffff;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+            border: none;
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.5);
+        }
+
+        .btn-instagram {
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            color: #ffffff;
+            box-shadow: 0 10px 30px rgba(225, 48, 108, 0.3);
+            border: none;
+        }
+
+        .btn-instagram:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(225, 48, 108, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        footer span {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-actions {
+                justify-content: center;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content, .tech-section, .contact-section {
+                padding: 30px 20px;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Liquid Background Glows -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="liquid-glass">
+        <div class="logo">
+            <i class="fa-solid fa-shield-halved"></i> OFFBATATA
+        </div>
+        <ul class="nav-links">
+            <li><a href="#sobre">Início</a></li>
+            <li><a href="#especialidades">Especialidades</a></li>
+            <li><a href="#certificados">Certificados</a></li>
+            <li><a href="#stacks">Stack & OS</a></li>
+            <li><a href="#contato" class="nav-cta">Contato Direto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section id="sobre" class="hero">
+            <div class="hero-content liquid-glass">
+                <div class="badge">
+                    <span></span> CYBERSECURITY & LIQUID GLASS EXPERT
+                </div>
+                <h1>Segurança Avançada & <span>Liquid Glass</span> Design</h1>
+                <p>Especialista em Cibersegurança, Pentests completos (Web & App), auditoria de bancos de dados SQL e desenvolvimento de interfaces imersivas de altíssima performance com estética Liquid Glass.</p>
+                <div class="hero-actions">
+                    <a href="#contato" class="btn btn-primary">
+                        <i class="fa-solid fa-paper-plane"></i> Falar no WhatsApp
+                    </a>
+                    <a href="#especialidades" class="btn btn-secondary">
+                        <i class="fa-solid fa-code"></i> Ver Especialidades
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-card liquid-glass">
+                <div class="security-orb">
+                    <i class="fa-solid fa-fingerprint"></i>
+                </div>
+                <h3>OFFBATATA</h3>
+                <p>Análise de Vulnerabilidades • Pentest • Web Architecture</p>
+            </div>
+        </section>
+
+        <!-- Section: Especialidades -->
+        <div id="especialidades" class="section-header">
+            <h2>Áreas de <span>Especialidade</span></h2>
+            <p>Domínio técnico avançado em segurança ofensiva, arquitetura de sistemas e design imersivo.</p>
+        </div>
+
+        <div class="expertise-grid">
+            <!-- Card 1 -->
+            <div class="card liquid-glass">
+                <div class="card-icon">
+                    <i class="fa-solid fa-user-secret"></i>
+                </div>
+                <h3>Pentest & Vulnerabilidades</h3>
+                <p>Testes de intrusão rigorosos para identificar falhas críticas, prevenir brechas e endurecer a segurança de ambientes digitais.</p>
+                <div class="tag-list">
+                    <span class="tag">Web Pentest</span>
+                    <span class="tag">App Pentest</span>
+                    <span class="tag">Análise de Riscos</span>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card liquid-glass">
+                <div class="card-icon">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+                <h3>SQL & Segurança de Dados</h3>
+                <p>Modelagem avançada, otimização de consultas e mitigação de vulnerabilidades críticas como SQL Injection em sistemas de missão crítica.</p>
+                <div class="tag-list">
+                    <span class="tag">SQL Avançado</span>
+                    <span class="tag">Database Hardening</span>
+                    <span class="tag">Query Tuning</span>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card liquid-glass">
+                <div class="card-icon">
+                    <i class="fa-solid fa-droplet"></i>
+                </div>
+                <h3>Liquid Glass Web Design</h3>
+                <p>Criação de interfaces visuais futuristas com efeitos de vidro translúcido, desfoques dinâmicos, reflexos e polimento visual de ponta.</p>
+                <div class="tag-list">
+                    <span class="tag">Glassmorphism</span>
+                    <span class="tag">CSS Backdrops</span>
+                    <span class="tag">UI/UX Imersivo</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Certificados -->
+        <div id="certificados" class="section-header">
+            <h2>Certificações <span>Profissionais</span></h2>
+            <p>Credenciais oficiais que validam a excelência e o rigor técnico em cibersegurança e redes.</p>
+        </div>
+
+        <div class="cert-grid">
+            <div class="cert-card liquid-glass">
+                <div class="cert-icon">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <div class="cert-info">
+                    <h4>Google Cybersecurity+</h4>
+                    <p>Certificação profissional cobrindo fundamentos de redes, segurança em nuvem, detecção de ameaças e resposta a incidentes.</p>
+                </div>
+            </div>
+
+            <div class="cert-card liquid-glass">
+                <div class="cert-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="cert-info">
+                    <h4>FATEC Cybersecurity</h4>
+                    <p>Formação técnica especializada em segurança da informação, criptografia, análise forense e proteção de infraestruturas.</p>
+                </div>
+            </div>
+
+            <div class="cert-card liquid-glass">
+                <div class="cert-icon">
+                    <i class="fa-solid fa-shield-check"></i>
+                </div>
+                <div class="cert-info">
+                    <h4>IT-BOOSTER SEC</h4>
+                    <p>Imersão avançada em blindagem de sistemas, hacking ético, pentest avançado e táticas de defesa cibernética ativa.</p>
+                </div>
+            </div>
+
+            <div class="cert-card liquid-glass">
+                <div class="cert-icon">
+                    <i class="fa-solid fa-network-wired"></i>
+                </div>
+                <div class="cert-info">
+                    <h4>Cisco Certified (Networking & Security)</h4>
+                    <p>Certificações Cisco cobrindo arquitetura de redes, roteamento, switching, firewalls e fundamentos de cibersegurança corporativa.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Tech Stack & Programming Languages -->
+        <div id="stacks" class="tech-section liquid-glass">
+            <div class="section-header" style="margin-bottom: 20px;">
+                <h2>Stack, Linguagens & <span>Sistemas</span></h2>
+                <p>Ferramentas, sistemas operacionais e linguagens utilizadas no desenvolvimento e operações de segurança.</p>
+            </div>
+
+            <div class="tech-items">
+                <div class="tech-item">
+                    <i class="fa-brands fa-linux"></i>
+                    <div>
+                        <h4>BlackArch & Arch Linux</h4>
+                        <span>Ambiente de Pentest & OS Principal</span>
+                    </div>
+                </div>
+
+                <div class="tech-item">
+                    <i class="fa-brands fa-js"></i>
+                    <div>
+                        <h4>JavaScript</h4>
+                        <span>Frontend & Node.js</span>
+                    </div>
+                </div>
+
+                <div class="tech-item">
+                    <i class="fa-brands fa-java"></i>
+                    <div>
+                        <h4>Java</h4>
+                        <span>Enterprise & Systems</span>
+                    </div>
+                </div>
+
+                <div class="tech-item">
+                    <i class="fa-brands fa-python"></i>
+                    <div>
+                        <h4>Python</h4>
+                        <span>Automação & Exploit Dev</span>
+                    </div>
+                </div>
+
+                <div class="tech-item">
+                    <i class="fa-solid fa-terminal"></i>
+                    <div>
+                        <h4>Cyber Tools</h4>
+                        <span>Burp Suite, Nmap & Metasploit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Direct Contact -->
+        <div id="contato" class="contact-section liquid-glass">
+            <h2>REDES SOCIAS</h2>
+            <p>ARCH BTW</p>
+            
+            <div class="contact-buttons">
+                <a href="https://wa.me/5515920023942" target="_blank" class="contact-btn btn-whatsapp">
+                    <i class="fa-brands fa-whatsapp fa-lg"></i> WhatsApp (15) 92002-3942
+                </a>
+                <a href="https://www.instagram.com/pvd.offzinh?stkn=MTYzZmU2Nm96eDY5Ng%3D%3D&utm_source=qr" target="_blank" class="contact-btn btn-instagram">
+                    <i class="fa-brands fa-instagram fa-lg"></i> @pvd.offzinh
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 <span>OFFBATATA</span>. Todos os direitos reservados. Design em <span>Liquid Glass</span>.</p>
+    </footer>
+
+</body>
+</html>
