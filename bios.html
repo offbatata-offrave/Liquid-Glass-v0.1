@@ -14,10 +14,10 @@
             --accent: #a855f7;
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shine: rgba(255, 255, 255, 0.12);
-            --glass-blur: blur(20px);
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-shine: rgba(255, 255, 255, 0.2);
+            --glass-blur: blur(25px);
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -88,8 +88,8 @@
             border-top: 1px solid var(--glass-shine);
             border-left: 1px solid var(--glass-shine);
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+                        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -104,7 +104,7 @@
             background: linear-gradient(
                 90deg,
                 transparent,
-                rgba(255, 255, 255, 0.05),
+                rgba(255, 255, 255, 0.08),
                 transparent
             );
             transform: skewX(-20deg);
@@ -115,20 +115,27 @@
             left: 150%;
         }
 
-        /* Navigation Bar */
+        /* Navigation Bar - Fixed & Enhanced Liquid Glass */
         nav {
             position: fixed;
-            top: 12px;
+            top: 15px;
             left: 50%;
             transform: translateX(-50%);
             width: 92%;
             max-width: 1200px;
-            padding: 12px 20px;
+            padding: 12px 24px;
             border-radius: 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.25);
             transition: var(--transition);
         }
 
@@ -178,13 +185,13 @@
         }
 
         .nav-cta {
-            background: linear-gradient(135deg, rgba(0, 242, 254, 0.1), rgba(79, 172, 254, 0.1));
-            border: 1px solid rgba(0, 242, 254, 0.3);
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(79, 172, 254, 0.15));
+            border: 1px solid rgba(0, 242, 254, 0.4);
             padding: 6px 16px;
             border-radius: 30px;
             color: var(--primary) !important;
             font-weight: 600 !important;
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
         }
 
         .nav-cta:hover {
@@ -195,11 +202,11 @@
 
         /* Menu Dots Button for Popup */
         .menu-dots-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--text-main);
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -207,10 +214,11 @@
             cursor: pointer;
             transition: var(--transition);
             font-size: 1rem;
+            backdrop-filter: blur(10px);
         }
 
         .menu-dots-btn:hover {
-            background: rgba(0, 242, 254, 0.15);
+            background: rgba(0, 242, 254, 0.2);
             border-color: var(--primary);
             color: var(--primary);
             box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
@@ -1027,9 +1035,9 @@
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <!-- Album Art -->
+            <!-- Album Art Updated to custom image URL -->
             <div class="album-art-container">
-                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80" alt="Album Art">
+                <img src="https://i.ibb.co/p6bGpbbL/IMG-0601.png" alt="Album Art">
             </div>
 
             <!-- Track Metadata -->
@@ -1073,8 +1081,8 @@
         </div>
     </div>
 
-    <!-- Navigation Bar -->
-    <nav class="liquid-glass">
+    <!-- Navigation Bar (Fixed & High Liquid Glass) -->
+    <nav>
         <div class="logo">
             <i class="fa-solid fa-shield-halved"></i> OFFBATATA
         </div>
