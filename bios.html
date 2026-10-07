@@ -912,6 +912,7 @@
             flex-wrap: wrap;
         }
 
+        /* Ultra Transparent Liquid Glass Social Buttons (90% transparent) */
         .contact-btn {
             padding: 16px 32px;
             border-radius: 20px;
@@ -922,30 +923,37 @@
             gap: 12px;
             font-size: 1rem;
             transition: var(--transition);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .btn-whatsapp {
-            background: linear-gradient(135deg, #25d366, #128c7e);
-            color: #ffffff;
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
-            border: none;
+            background: rgba(37, 211, 102, 0.1);
+            color: #25d366;
         }
 
         .btn-whatsapp:hover {
+            background: rgba(37, 211, 102, 0.25);
+            color: #ffffff;
+            border-color: #25d366;
             transform: translateY(-4px);
-            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.5);
+            box-shadow: 0 20px 40px rgba(37, 211, 102, 0.3);
         }
 
         .btn-instagram {
-            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-            color: #ffffff;
-            box-shadow: 0 10px 30px rgba(225, 48, 108, 0.3);
-            border: none;
+            background: rgba(225, 48, 108, 0.1);
+            color: #fd1d1d;
         }
 
         .btn-instagram:hover {
+            background: rgba(225, 48, 108, 0.25);
+            color: #ffffff;
+            border-color: #fd1d1d;
             transform: translateY(-4px);
-            box-shadow: 0 15px 35px rgba(225, 48, 108, 0.5);
+            box-shadow: 0 20px 40px rgba(225, 48, 108, 0.3);
         }
 
         /* Footer */
