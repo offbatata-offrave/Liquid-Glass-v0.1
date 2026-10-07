@@ -118,12 +118,12 @@
         /* Navigation Bar */
         nav {
             position: fixed;
-            top: 20px;
+            top: 12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
+            width: 92%;
             max-width: 1200px;
-            padding: 15px 30px;
+            padding: 12px 20px;
             border-radius: 50px;
             display: flex;
             justify-content: space-between;
@@ -133,7 +133,7 @@
         }
 
         .logo {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 800;
             letter-spacing: 1px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -142,25 +142,25 @@
             font-family: 'JetBrains Mono', monospace;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .logo i {
             -webkit-text-fill-color: initial;
             color: var(--primary);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 12px;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 30px;
+            gap: 25px;
             align-items: center;
         }
 
@@ -168,7 +168,7 @@
             text-decoration: none;
             color: var(--text-muted);
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: var(--transition);
         }
 
@@ -180,7 +180,7 @@
         .nav-cta {
             background: linear-gradient(135deg, rgba(0, 242, 254, 0.1), rgba(79, 172, 254, 0.1));
             border: 1px solid rgba(0, 242, 254, 0.3);
-            padding: 8px 20px;
+            padding: 6px 16px;
             border-radius: 30px;
             color: var(--primary) !important;
             font-weight: 600 !important;
@@ -198,15 +198,15 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--glass-border);
             color: var(--text-main);
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: var(--transition);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .menu-dots-btn:hover {
@@ -214,6 +214,36 @@
             border-color: var(--primary);
             color: var(--primary);
             box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+        }
+
+        /* Floating Quick Play/Pause Button */
+        .floating-player-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(28, 30, 38, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 1500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 242, 254, 0.2);
+            transition: var(--transition);
+        }
+
+        .floating-player-btn:hover {
+            transform: scale(1.1);
+            background: var(--primary);
+            color: #050811;
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.4);
         }
 
         /* Liquid Glass Popup Modal */
@@ -462,7 +492,7 @@
             color: var(--primary);
         }
 
-        /* Audio Interaction Notice Banner (Autoplay Policy Helper) */
+        /* Audio Interaction Notice Banner */
         .audio-notice {
             position: fixed;
             bottom: 25px;
@@ -977,6 +1007,11 @@
         <i class="fa-solid fa-volume-high"></i> Clique aqui para ativar o som do player 🎵
     </div>
 
+    <!-- Floating Quick Play/Pause Button on Screen -->
+    <button class="floating-player-btn" onclick="togglePlayPause()" title="Play / Pause Música" id="floating-play-btn">
+        <i class="fa-solid fa-play" id="floating-icon"></i>
+    </button>
+
     <!-- Liquid Glass Popup Modal for Music Player -->
     <div id="player-modal" class="modal-overlay">
         <div class="apple-player-card">
@@ -1254,6 +1289,7 @@
     <script>
         const audio = document.getElementById('bg-audio');
         const playPauseBtn = document.getElementById('play-pause-icon');
+        const floatingIcon = document.getElementById('floating-icon');
         const progressFill = document.getElementById('progress-bar-fill');
         const currentTimeEl = document.getElementById('current-time');
         const durationTimeEl = document.getElementById('duration-time');
@@ -1266,8 +1302,8 @@
         window.addEventListener('DOMContentLoaded', () => {
             audio.play().then(() => {
                 playPauseBtn.className = "fa-solid fa-pause";
+                floatingIcon.className = "fa-solid fa-pause";
             }).catch(() => {
-                // Autoplay blocked by browser policy -> show prompt notice
                 audioNotice.classList.add('show');
             });
         });
@@ -1275,6 +1311,7 @@
         function enableAudio() {
             audio.play();
             playPauseBtn.className = "fa-solid fa-pause";
+            floatingIcon.className = "fa-solid fa-pause";
             audioNotice.classList.remove('show');
         }
 
@@ -1286,9 +1323,11 @@
             if (audio.paused) {
                 audio.play();
                 playPauseBtn.className = "fa-solid fa-pause";
+                floatingIcon.className = "fa-solid fa-pause";
             } else {
                 audio.pause();
                 playPauseBtn.className = "fa-solid fa-play";
+                floatingIcon.className = "fa-solid fa-play";
             }
         }
 
