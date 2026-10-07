@@ -151,6 +151,12 @@
             font-size: 1.1rem;
         }
 
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
         .nav-links {
             display: flex;
             list-style: none;
@@ -185,6 +191,302 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: #050811 !important;
             box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+        }
+
+        /* Menu Dots Button for Popup */
+        .menu-dots-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .menu-dots-btn:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+        }
+
+        /* Liquid Glass Popup Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 8, 17, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Apple Music Style Player Popup Card */
+        .apple-player-card {
+            width: 360px;
+            padding: 24px;
+            border-radius: 36px;
+            background: rgba(28, 30, 38, 0.55);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .modal-overlay.active .apple-player-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .player-close {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .player-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .album-art-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+        }
+
+        .album-art-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .track-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .track-details h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 260px;
+        }
+
+        .track-details p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .track-social-icon {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .track-social-icon:hover {
+            color: var(--primary);
+        }
+
+        /* Custom Progress Bar */
+        .progress-container {
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #ffffff;
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+
+        .time-indicators {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Player Controls */
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .control-btn.secondary {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .control-btn.secondary:hover {
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        .control-btn.play-pause {
+            width: 50px;
+            height: 50px;
+            background: #ffffff;
+            color: #050811;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .control-btn.play-pause:hover {
+            transform: scale(1.08);
+            background: var(--primary);
+        }
+
+        /* Volume Bar */
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 15px;
+        }
+
+        .volume-container i {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 4px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        /* Device Pill */
+        .device-pill {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .device-pill i {
+            color: var(--primary);
+        }
+
+        /* Audio Interaction Notice Banner (Autoplay Policy Helper) */
+        .audio-notice {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 242, 254, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            padding: 12px 24px;
+            border-radius: 30px;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .audio-notice.show {
+            transform: translateX(-50%) translateY(0);
         }
 
         /* Main Container Layout */
@@ -667,18 +969,85 @@
     <div class="ambient-glow glow-2"></div>
     <div class="ambient-glow glow-3"></div>
 
+    <!-- Audio Element -->
+    <audio id="bg-audio" src="https://inaudio.org/wp-content/uploads/2026/09/Emerel-Gray-Funk-Nothing-pr.mp3" preload="auto" loop></audio>
+
+    <!-- Audio Permission Notice (Autoplay Policy Helper) -->
+    <div id="audio-notice" class="audio-notice" onclick="enableAudio()">
+        <i class="fa-solid fa-volume-high"></i> Clique aqui para ativar o som do player 🎵
+    </div>
+
+    <!-- Liquid Glass Popup Modal for Music Player -->
+    <div id="player-modal" class="modal-overlay">
+        <div class="apple-player-card">
+            <button class="player-close" onclick="togglePlayerModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Album Art -->
+            <div class="album-art-container">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80" alt="Album Art">
+            </div>
+
+            <!-- Track Metadata -->
+            <div class="track-info">
+                <div class="track-details">
+                    <h3>Emerel Gray Funk</h3>
+                    <p>Nothing (OFFBATATA Edit)</p>
+                </div>
+                <i class="fa-solid fa-users track-social-icon" title="Watch Party Active"></i>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container" id="progress-container" onclick="seekAudio(event)">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                </div>
+                <div class="time-indicators">
+                    <span id="current-time">0:00</span>
+                    <span id="duration-time">3:00</span>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="player-controls">
+                <button class="control-btn secondary" onclick="skipTime(-10)"><i class="fa-solid fa-backward-step"></i></button>
+                <button class="control-btn play-pause" id="play-pause-btn" onclick="togglePlayPause()"><i class="fa-solid fa-play" id="play-pause-icon"></i></button>
+                <button class="control-btn secondary" onclick="skipTime(10)"><i class="fa-solid fa-forward-step"></i></button>
+            </div>
+
+            <!-- Volume -->
+            <div class="volume-container">
+                <i class="fa-solid fa-volume-low"></i>
+                <input type="range" min="0" max="1" step="0.05" value="0.8" class="volume-slider" id="volume-slider" oninput="changeVolume(this.value)">
+                <i class="fa-solid fa-volume-high"></i>
+            </div>
+
+            <!-- Device Pill -->
+            <div class="device-pill">
+                <i class="fa-brands fa-apple"></i> AirPods Pro (OFFBATATA Audio)
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation Bar -->
     <nav class="liquid-glass">
         <div class="logo">
             <i class="fa-solid fa-shield-halved"></i> OFFBATATA
         </div>
-        <ul class="nav-links">
-            <li><a href="#sobre">Início</a></li>
-            <li><a href="#especialidades">Especialidades</a></li>
-            <li><a href="#certificados">Certificados</a></li>
-            <li><a href="#stacks">Stack & OS</a></li>
-            <li><a href="#contato" class="nav-cta">Contato Direto</a></li>
-        </ul>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#sobre">Início</a></li>
+                <li><a href="#especialidades">Especialidades</a></li>
+                <li><a href="#certificados">Certificados</a></li>
+                <li><a href="#stacks">Stack & OS</a></li>
+                <li><a href="#contato" class="nav-cta">Contato Direto</a></li>
+            </ul>
+            <!-- Three dots menu button to open player -->
+            <button class="menu-dots-btn" onclick="togglePlayerModal()" title="Abrir Player de Música">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+        </div>
     </nav>
 
     <!-- Main Wrapper -->
@@ -861,7 +1230,7 @@
 
         <!-- Section: Direct Contact -->
         <div id="contato" class="contact-section liquid-glass">
-            <h2>REDES SOCIAS</h2>
+            <h2>REDES SOCIAIS</h2>
             <p>ARCH BTW</p>
             
             <div class="contact-buttons">
@@ -881,5 +1250,90 @@
         <p>&copy; 2026 <span>OFFBATATA</span>. Todos os direitos reservados. Design em <span>Liquid Glass</span>.</p>
     </footer>
 
+    <!-- Audio Player Controller Script -->
+    <script>
+        const audio = document.getElementById('bg-audio');
+        const playPauseBtn = document.getElementById('play-pause-icon');
+        const progressFill = document.getElementById('progress-bar-fill');
+        const currentTimeEl = document.getElementById('current-time');
+        const durationTimeEl = document.getElementById('duration-time');
+        const audioNotice = document.getElementById('audio-notice');
+        const playerModal = document.getElementById('player-modal');
+
+        audio.volume = 0.8;
+
+        // Try autoplay on load
+        window.addEventListener('DOMContentLoaded', () => {
+            audio.play().then(() => {
+                playPauseBtn.className = "fa-solid fa-pause";
+            }).catch(() => {
+                // Autoplay blocked by browser policy -> show prompt notice
+                audioNotice.classList.add('show');
+            });
+        });
+
+        function enableAudio() {
+            audio.play();
+            playPauseBtn.className = "fa-solid fa-pause";
+            audioNotice.classList.remove('show');
+        }
+
+        function togglePlayerModal() {
+            playerModal.classList.toggle('active');
+        }
+
+        function togglePlayPause() {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.className = "fa-solid fa-pause";
+            } else {
+                audio.pause();
+                playPauseBtn.className = "fa-solid fa-play";
+            }
+        }
+
+        function skipTime(seconds) {
+            audio.currentTime += seconds;
+        }
+
+        function changeVolume(val) {
+            audio.volume = val;
+        }
+
+        function formatTime(secs) {
+            const minutes = Math.floor(secs / 60);
+            const seconds = Math.floor(secs % 60);
+            return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationTimeEl.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (audio.duration) {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = percent + '%';
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            }
+        });
+
+        function seekAudio(event) {
+            const container = document.getElementById('progress-container');
+            const rect = container.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const width = rect.width;
+            if (audio.duration) {
+                audio.currentTime = (clickX / width) * audio.duration;
+            }
+        }
+
+        // Close modal when clicking outside card
+        playerModal.addEventListener('click', (e) => {
+            if (e.target === playerModal) {
+                togglePlayerModal();
+            }
+        });
+    </script>
 </body>
 </html>
