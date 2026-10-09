@@ -37,6 +37,50 @@
             position: relative;
         }
 
+        /* --- Hacker Terminal Intro --- */
+        .terminal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: #020408;
+            z-index: 9999;
+            padding: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary);
+            font-size: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s ease;
+        }
+
+        .terminal-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+
+        .terminal-line {
+            margin-bottom: 8px;
+            text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 12px;
+            height: 1.2em;
+            background-color: var(--primary);
+            margin-left: 5px;
+            animation: blink 1s step-end infinite;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
         /* Ambient Liquid Background Glows */
         .ambient-glow {
             position: fixed;
@@ -1010,6 +1054,11 @@
 </head>
 <body>
 
+    <!-- Terminal Intro Overlay -->
+    <div id="terminal-intro" class="terminal-overlay">
+        <div id="terminal-content"></div>
+    </div>
+
     <!-- Ambient Liquid Background Glows -->
     <div class="ambient-glow glow-1"></div>
     <div class="ambient-glow glow-2"></div>
@@ -1240,7 +1289,7 @@
                 <div class="tech-item">
                     <i class="fa-brands fa-linux"></i>
                     <div>
-                        <h4>BlackArch & Arch Linux</h4>
+                        <h4>Fedora & BlackArch</h4>
                         <span>Ambiente de Pentest & OS Principal</span>
                     </div>
                 </div>
@@ -1301,8 +1350,67 @@
         <p>&copy; 2026 <span>OFFBATATA</span>. Todos os direitos reservados. Design em <span>Liquid Glass</span>.</p>
     </footer>
 
-    <!-- Audio Player Controller Script -->
+    <!-- Scripts -->
     <script>
+        // --- Hacker Terminal Intro Logic ---
+        const bootSequence = [
+            "Booting Fedora Linux kernel 6.x.x...",
+            "Loading initial ramdisk...",
+            "Mounting file systems... [ OK ]",
+            "Starting Network Manager... [ OK ]",
+            "Initializing BlackArch security tools...",
+            "Establishing encrypted tunnel via port 443...",
+            "Bypassing mainframe security... [ SUCCESS ]",
+            "Executing OFFBATATA protocol...",
+            "Decrypting Liquid Glass Interface...",
+            "Access Granted. Welcome, root."
+        ];
+
+        async function runTerminalIntro() {
+            const overlay = document.getElementById('terminal-intro');
+            const content = document.getElementById('terminal-content');
+            
+            // Prevent scrolling while intro is active
+            document.body.style.overflow = 'hidden';
+            
+            const cursor = document.createElement('span');
+            cursor.className = 'cursor';
+            
+            // Delay start slightly
+            await new Promise(r => setTimeout(r, 500));
+            
+            for (let i = 0; i < bootSequence.length; i++) {
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'terminal-line';
+                content.appendChild(lineDiv);
+                
+                lineDiv.appendChild(cursor); // Move cursor to active line
+                
+                let text = "root@offbatata:~# " + bootSequence[i];
+                for (let char of text) {
+                    lineDiv.insertBefore(document.createTextNode(char), cursor);
+                    // Random typing speed per character for realism
+                    await new Promise(r => setTimeout(r, Math.random() * 30 + 10)); 
+                }
+                
+                // Pause at the end of each line
+                await new Promise(r => setTimeout(r, 200)); 
+            }
+            
+            // Final blink pause before disappearing
+            await new Promise(r => setTimeout(r, 900));
+            
+            // Start fade out
+            overlay.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Restore scroll
+            
+            // Remove from DOM after transition
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 1000);
+        }
+
+        // --- Existing Audio Player Logic ---
         const audio = document.getElementById('bg-audio');
         const playPauseBtn = document.getElementById('play-pause-icon');
         const floatingIcon = document.getElementById('floating-icon');
@@ -1314,8 +1422,11 @@
 
         audio.volume = 0.8;
 
-        // Try autoplay on load
         window.addEventListener('DOMContentLoaded', () => {
+            // Start the terminal intro
+            runTerminalIntro();
+
+            // Try autoplay audio
             audio.play().then(() => {
                 playPauseBtn.className = "fa-solid fa-pause";
                 floatingIcon.className = "fa-solid fa-pause";
